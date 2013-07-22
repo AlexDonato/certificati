@@ -10,7 +10,7 @@ import org.appfuse.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alessandrodonato.webapp.dao.FornitoreDao;
+import com.alessandrodonato.dao.FornitoreDao;
 import com.alessandrodonato.webapp.model.Fornitore;
 import com.alessandrodonato.webapp.service.FornitoreManager;
 

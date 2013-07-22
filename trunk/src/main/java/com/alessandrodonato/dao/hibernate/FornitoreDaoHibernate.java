@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alessandrodonato.webapp.dao.hibernate;
+package com.alessandrodonato.dao.hibernate;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.alessandrodonato.webapp.dao.FornitoreDao;
+import com.alessandrodonato.dao.FornitoreDao;
 import com.alessandrodonato.webapp.model.Fornitore;
 
 /**

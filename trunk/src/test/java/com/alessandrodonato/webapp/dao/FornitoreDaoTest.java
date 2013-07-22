@@ -12,6 +12,7 @@ import org.appfuse.dao.GenericDao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alessandrodonato.dao.FornitoreDao;
 import com.alessandrodonato.webapp.model.Fornitore;
 
 /**

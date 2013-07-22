@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alessandrodonato.webapp.dao;
+package com.alessandrodonato.dao;
 
 import java.util.List;
 

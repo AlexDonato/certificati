@@ -5,12 +5,7 @@ package com.alessandrodonato.webapp.controller;
 
 import javax.annotation.Resource;
 
-import org.appfuse.dao.GenericDao;
 import org.appfuse.dao.SearchException;
-import org.appfuse.dao.hibernate.GenericDaoHibernate;
-import org.appfuse.service.GenericManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alessandrodonato.webapp.model.Fornitore;
 import com.alessandrodonato.webapp.service.FornitoreManager;
 
 /**
