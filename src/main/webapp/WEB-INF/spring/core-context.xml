@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     	http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/context
+                      http://www.springframework.org/schema/context/spring-context.xsd
+                      http://www.springframework.org/schema/tx
+                      http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:property-placeholder location="classpath*:META-INF/*.properties" />
+
+	<context:component-scan base-package="com.alessandrodonato.elledia, org.hibernate.SessionFactory" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="1800000" />
+		<property name="numTestsPerEvictionRun" value="3" />
+		<property name="minEvictableIdleTimeMillis" value="1800000" />
+		<property name="validationQuery" value="SELECT 1" />
+	</bean>
+
+	<!-- uses the persistence unit defined in the META-INF/persistence.xml JPA 
+		configuration file -->
+<!-- 	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="entityManagerFactory">
+		<property name="persistenceUnitName" value="persistenceUnit" />
+		<property name="dataSource" ref="myDataSource" />
+	</bean> -->
+
+	<!-- enables interpretation of the @Required annotation to ensure that dependency 
+		injection actually occures -->
+	<bean
+		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+	<!-- enables interpretation of the @PersistenceUnit/@PersistenceContext 
+		annotations providing convenient access to EntityManagerFactory/EntityManager -->
+<!-- 	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> -->
+
+	<!-- transaction manager for use with a single JPA EntityManagerFactory 
+		for transactional data access to a single datasource -->
+<!-- 	<bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean> -->
+
+	<bean id="certificatiDAO" class="com.alessandrodonato.elledia.dao.CertificatoDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="CertificatoService" class="com.alessandrodonato.elledia.service.CertificatoServiceImpl">
+		<property name="certificatoDao" ref="certificatiDAO" />
+	</bean>
+	
+	<bean id="fornitoriDAO" class="com.alessandrodonato.elledia.dao.FornitoreDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="fornitoriService" class="com.alessandrodonato.elledia.service.FornitoreServiceImpl">
+		<property name="fornitoreDao" ref="fornitoriDAO" />
+	</bean>
+	
+</beans>

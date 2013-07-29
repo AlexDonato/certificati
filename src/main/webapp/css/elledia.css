@@ -1,0 +1,73 @@
+@CHARSET "ISO-8859-1";
+
+body,html {
+	margin: 0;
+	padding: 0;
+	color: #000;
+	background: #a7a09a;
+}
+
+#wrap {
+	width: 1024px;
+	margin: 0 auto;
+	background: #99c;
+}
+
+#header {
+	background: #ddd;
+}
+
+#nav {
+	background: #c99;
+}
+
+#nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#nav li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+#main {
+	float: right;
+	width: 824px;
+	height: 400px;
+	background: #9c9;
+}
+
+#sidebar {
+	float: left;
+	width: 200px;
+	background: #c9c;
+}
+
+#footer {
+	clear: both;
+	background: #cc9;
+}
+
+
+#footer-applicazione {
+	float: left;
+	text-align: left;
+	width: 200px;
+	background: #0b0;
+}
+
+#footer-versione {
+	float: right;
+	width: 824px;
+	background: #eee;
+	text-align: right;
+}
+
+
+
+.ui-menu {
+	width: 150px;
+}

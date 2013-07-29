@@ -1,0 +1,33 @@
+{
+	"page": 1,
+	"total": 1,
+	"rows": [{
+		"id": "ZW",
+		"cell": {
+			"nome": "Zimbabwe ",
+			"codice": "ZW"
+		}
+	},
+	{
+		"id": "ZM",
+		"cell": {
+			"nome": "Zambia ",
+			"codice": "ZM"
+		}
+	},
+	{
+		"id": "YE",
+		"cell": {
+			"nome": "Yemen ",
+			"codice": "YE"
+		}
+	},
+	{
+		"id": "EH",
+		"cell": {
+			"nome": "Western Sahara ",
+			"codice": "EH"
+		}
+	}],
+	"post": []
+}

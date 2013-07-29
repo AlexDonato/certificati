@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="base.definition" template="/WEB-INF/jsp/layout.jsp">
+        <put-attribute name="title" value="Elle.Di.A. - Certificati" />
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+    </definition>
+
+    <definition name="home" extends="base.definition">
+        <put-attribute name="body" value="" />
+    </definition> 
+
+    <definition name="addFornitore" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/fornitori.jsp" />
+    </definition>
+
+    <definition name="certificato" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/certificato.jsp" />
+    </definition>
+    
+    <definition name="addMateriale" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/certificato.jsp" />
+    </definition>    
+  
+</tiles-definitions>
