@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alessandrodonato.elledia.dao;
+package com.alessandrodonato.elledia.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.alessandrodonato.elledia.dao.FornitoreDao;
 import com.alessandrodonato.elledia.model.Fornitore;
 
 /**
@@ -36,28 +37,34 @@ public class FornitoreDaoImpl implements FornitoreDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public short save (Fornitore fornitore) {
-		log.debug("init save [" + fornitore.getNome() + "]");
+		log.debug("init save [" + fornitore.getRagioneSociale() + "]");
 		
 		short result = -1;
 		
 		// Prima verifico se esiste gia' un fornitore con il nome passato
-		Fornitore f = findFornitoreByName(fornitore.getNome());
+		Fornitore f = findFornitoreByName(fornitore.getRagioneSociale());
 		if (f != null) {
 			log.debug("\tfornitore esistente " + f);
 			return MSG_DUPLICATO;
 		}
 		
 		// TODO Auto-generated method stub
-		String query = "INSERT INTO fornitori (ragione_sociale, telefono, piva) VALUES (:nome, :telefono, :piva)";
+		String query = "INSERT INTO fornitori (ragione_sociale, indirizzo, cap, citta, email, telefono, fax, piva ) " +
+				" VALUES (:ragione_sociale, :indirizzo, :cap, :citta, :email, :telefono, :fax, :piva)";
 		
 		Map namedParameters = new HashMap();
-		namedParameters.put("nome", fornitore.getNome());
+		namedParameters.put("ragione_sociale", fornitore.getRagioneSociale());
+		namedParameters.put("indirizzo", fornitore.getIndirizzo());
+		namedParameters.put("cap", fornitore.getCap());
+		namedParameters.put("citta", fornitore.getCitta());
+		namedParameters.put("email", fornitore.getEmail());
 		namedParameters.put("telefono", fornitore.getTelefono());
+		namedParameters.put("fax", fornitore.getFax());
 		namedParameters.put("piva", fornitore.getPiva());
 		
 		int num = namedParameterJdbcTemplate.update(query, namedParameters);
 		
-		log.debug("end save [" + fornitore.getNome() + "]");
+		log.debug("end save [" + fornitore.getRagioneSociale() + "]");
 		
 		if (num == 1)
 			return FornitoreDao.MSG_SALVATO;
@@ -69,13 +76,13 @@ public class FornitoreDaoImpl implements FornitoreDao {
 	@Override
 	public void update(Fornitore fornitore) {
 		// TODO Auto-generated method stub
-		log.debug("FAKE update [" + fornitore.getNome() + "]");
+		log.debug("FAKE update [" + fornitore.getRagioneSociale() + "]");
 	}
 
 	@Override
 	public void delete(Fornitore fornitore) {
 		// TODO Auto-generated method stub
-		log.debug("FAKE delete [" + fornitore.getNome() + "]");
+		log.debug("FAKE delete [" + fornitore.getRagioneSociale() + "]");
 	}
 
 	@Override
@@ -108,8 +115,13 @@ public class FornitoreDaoImpl implements FornitoreDao {
 					Fornitore fornitore = new Fornitore();
 					fornitore.setId(rs.getInt("ID"));
 					fornitore.setPiva(rs.getString("PIVA"));
-					fornitore.setNome(rs.getString("NOME"));
+					fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
 					fornitore.setTelefono(rs.getString("TELEFONO"));
+					fornitore.setCitta(rs.getString("CITTA"));
+					fornitore.setCap(rs.getString("CAP"));
+					fornitore.setEmail(rs.getString("EMAIL"));
+					fornitore.setFax(rs.getString("FAX"));
+					fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
 					return fornitore;
 				} else {
 					return null;
@@ -143,8 +155,13 @@ public class FornitoreDaoImpl implements FornitoreDao {
 							Fornitore fornitore = new Fornitore();
 							fornitore.setId(rs.getInt("ID"));
 							fornitore.setPiva(rs.getString("PIVA"));
-							fornitore.setNome(rs.getString("RAGIONE_SOCIALE"));
+							fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
 							fornitore.setTelefono(rs.getString("TELEFONO"));
+							fornitore.setCitta(rs.getString("CITTA"));
+							fornitore.setCap(rs.getString("CAP"));
+							fornitore.setEmail(rs.getString("EMAIL"));
+							fornitore.setFax(rs.getString("FAX"));
+							fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
 							listaFornitori.add (fornitore);
 						}
 

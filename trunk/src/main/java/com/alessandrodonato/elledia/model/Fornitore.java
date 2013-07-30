@@ -45,8 +45,13 @@ public class Fornitore implements Serializable {
 	 */
 	private static final long serialVersionUID = -8682053130308009125L;
 	private int id;
-	private String nome;
+	private String ragioneSociale;
+	private String indirizzo;
+	private String cap;
+	private String citta;
+	private String email;
 	private String telefono;
+	private String fax;
 	private String piva;
 
 	@Id
@@ -60,13 +65,58 @@ public class Fornitore implements Serializable {
 		this.id = id;
 	}
 
-	@Column (name = "nome", nullable = false)
-	public String getNome() {
-		return nome;
+	@Column (name = "ragione_sociale", nullable = false)
+	public String getRagioneSociale() {
+		return ragioneSociale;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setRagioneSociale(String ragioneSociale) {
+		this.ragioneSociale = ragioneSociale;
+	}
+
+	@Column (name = "indirizzo", nullable = true)
+	public String getIndirizzo() {
+		return indirizzo;
+	}
+
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+
+	@Column (name = "cap", nullable = true)
+	public String getCap() {
+		return cap;
+	}
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+
+	@Column (name = "citta", nullable = true)
+	public String getCitta() {
+		return citta;
+	}
+
+	public void setCitta(String citta) {
+		this.citta = citta;
+	}
+
+	@Column (name = "email", nullable = true)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Column (name = "fax", nullable = true)
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
 
 	@Column (name = "telefono")
@@ -86,9 +136,13 @@ public class Fornitore implements Serializable {
 	public void setPiva(String piva) {
 		this.piva = piva;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
 	@Override
 	public String toString () {
-		return "Fornitore [id = " + id + ", nome = " + nome + ", telefono = " + telefono + ", piva = " + piva + "]";
+		return "Fornitore [id = " + id + ", ragioneSociale = " + ragioneSociale + ", telefono = " + telefono + ", piva = " + piva + "]";
 	}
 }

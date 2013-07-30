@@ -17,8 +17,8 @@
 	        <td colspan="2">Inserire i dati relativi al fornitore.</td>
 	    </tr>
 	    <tr>
-	        <td><form:label path="nome" class="ui-widget input">Ragione sociale</form:label></td>
-	        <td><form:input path="nome" class="ui-widget input"/></td>
+	        <td><form:label path="ragioneSociale" class="ui-widget input">Ragione sociale</form:label></td>
+	        <td><form:input path="ragioneSociale" class="ui-widget input"/></td>
 	    </tr>
 	    <tr>
 	        <td><form:label path="telefono" class="ui-widget input">Telefono</form:label></td>
