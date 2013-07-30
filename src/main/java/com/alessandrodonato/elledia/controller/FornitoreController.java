@@ -3,17 +3,10 @@
  */
 package com.alessandrodonato.elledia.controller;
 
-import java.util.ArrayList;
-
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alessandrodonato.elledia.helper.JSONFlexGridResult;
 import com.alessandrodonato.elledia.model.Fornitore;
 import com.alessandrodonato.elledia.service.FornitoreService;
 import com.alessandrodonato.elledia.service.FornitoreServiceImpl;
@@ -47,12 +39,12 @@ public class FornitoreController {
 	 */
 	@RequestMapping(value = "/addFornitore", method = RequestMethod.POST)
 	public @ResponseBody String addFornitore (
-			@RequestParam(value="nome", required=true) String nome,
+			@RequestParam(value="ragioneSociale", required=true) String ragioneSociale,
 			@RequestParam(value="telefono", required=true) String telefono,
 			@RequestParam(value="piva", required=true) String piva, Model model) {
 		
 		Fornitore fornitore = new Fornitore ();
-		fornitore.setNome(nome);
+		fornitore.setRagioneSociale(ragioneSociale);
 		fornitore.setTelefono(telefono);
 		fornitore.setPiva(piva);
 

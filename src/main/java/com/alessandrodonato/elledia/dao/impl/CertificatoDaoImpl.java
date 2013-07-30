@@ -1,12 +1,13 @@
 /**
  * 
  */
-package com.alessandrodonato.elledia.dao;
+package com.alessandrodonato.elledia.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.alessandrodonato.elledia.dao.CertificatoDao;
 import com.alessandrodonato.elledia.model.Certificato;
 
 /**

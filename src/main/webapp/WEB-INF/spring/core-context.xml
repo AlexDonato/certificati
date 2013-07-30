@@ -54,7 +54,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean> -->
 
-	<bean id="certificatiDAO" class="com.alessandrodonato.elledia.dao.CertificatoDaoImpl">
+	<bean id="certificatiDAO" class="com.alessandrodonato.elledia.dao.impl.CertificatoDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
@@ -62,7 +62,7 @@
 		<property name="certificatoDao" ref="certificatiDAO" />
 	</bean>
 	
-	<bean id="fornitoriDAO" class="com.alessandrodonato.elledia.dao.FornitoreDaoImpl">
+	<bean id="fornitoriDAO" class="com.alessandrodonato.elledia.dao.impl.FornitoreDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
