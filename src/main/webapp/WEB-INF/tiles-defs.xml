@@ -12,14 +12,14 @@
     </definition>
 
     <definition name="home" extends="base.definition">
-        <put-attribute name="body" value="" />
+        <put-attribute name="body" value="/WEB-INF/jsp/home.jsp" />
     </definition> 
 
     <definition name="addFornitore" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/jsp/fornitori.jsp" />
     </definition>
 
-    <definition name="certificato" extends="base.definition">
+    <definition name="newCertificato" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/jsp/certificato.jsp" />
     </definition>
     
