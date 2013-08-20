@@ -17,22 +17,6 @@ body,html {
 	background: #ddd;
 }
 
-#nav {
-	background: #c99;
-}
-
-#nav ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#nav li {
-	display: inline;
-	margin: 0;
-	padding: 0;
-}
-
 #main {
 	float: right;
 	width: 824px;
@@ -42,7 +26,7 @@ body,html {
 
 #sidebar {
 	float: left;
-	width: 200px;
+	width: 120px;
 	background: #c9c;
 }
 
@@ -64,10 +48,4 @@ body,html {
 	width: 824px;
 	background: #eee;
 	text-align: right;
-}
-
-
-
-.ui-menu {
-	width: 150px;
 }

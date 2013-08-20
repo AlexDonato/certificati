@@ -38,10 +38,9 @@ public class CertificatoController {
 		return "redirect:certificati.html";
 	}
 
-	@RequestMapping("/certificati")
+	@RequestMapping("/newCertificato")
 	public ModelAndView certificati () {
-
-		return new ModelAndView("certificato", "certificato", new Certificato());
+		return new ModelAndView("newCertificato", "certificato", new Certificato());
 	}
 	
 	/**

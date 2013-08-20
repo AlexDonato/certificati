@@ -20,12 +20,6 @@ import javax.persistence.UniqueConstraint;
  * 18/feb/2013
  */
 
-/**
- * @author Alessandro Donato
- *
- * 06/feb/2013
-*/
-
 /*
 	@Entity annotation is used to declare the POJO as persistent entity.
 	@Table annotation is used to map the POJO class to the table. In our case it is 'certificato' table in database.
@@ -49,10 +43,13 @@ public class Fornitore implements Serializable {
 	private String indirizzo;
 	private String cap;
 	private String citta;
+	private String country;
 	private String email;
 	private String telefono;
 	private String fax;
 	private String piva;
+	private boolean enabled;
+	private String note;
 
 	@Id
 	@GeneratedValue (strategy = IDENTITY)
@@ -137,6 +134,33 @@ public class Fornitore implements Serializable {
 		this.piva = piva;
 	}
 
+	@Column (name = "country")
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	@Column (name = "enabled")
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Column (name = "note")
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -145,4 +169,6 @@ public class Fornitore implements Serializable {
 	public String toString () {
 		return "Fornitore [id = " + id + ", ragioneSociale = " + ragioneSociale + ", telefono = " + telefono + ", piva = " + piva + "]";
 	}
+
+	
 }
