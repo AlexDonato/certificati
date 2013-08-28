@@ -1,2 +1,1 @@
-<div id="footer-versione">Certificati Ver.1.0</div>
-<div id="footer-applicazione">Elle.Di.A.</div>
+<p class="text-muted credit">&copy; <a href="http://martinbean.co.uk">Alessandro Donato</a>.</p>

@@ -4,6 +4,7 @@
 package com.alessandrodonato.elledia.service;
 
 import java.util.ArrayList;
+import java.util.SortedMap;
 
 import com.alessandrodonato.elledia.model.Fornitore;
 
@@ -20,5 +21,6 @@ public interface FornitoreService {
 	public Fornitore findFornitoreById (int id);
 	public ArrayList <Fornitore> findFornitoriByName (String nome);
 	public ArrayList <Fornitore> findAllFornitori ();
+	public SortedMap <String, String> findAllFornitoriCombo ();
 
 }

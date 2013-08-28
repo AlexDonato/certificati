@@ -40,34 +40,25 @@
 
 	<!-- enables interpretation of the @Required annotation to ensure that dependency 
 		injection actually occures -->
-	<bean
-		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	<bean	class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
-	<!-- enables interpretation of the @PersistenceUnit/@PersistenceContext 
-		annotations providing convenient access to EntityManagerFactory/EntityManager -->
-<!-- 	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> -->
-
-	<!-- transaction manager for use with a single JPA EntityManagerFactory 
-		for transactional data access to a single datasource -->
-<!-- 	<bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean> -->
-
-	<bean id="certificatiDAO" class="com.alessandrodonato.elledia.dao.impl.CertificatoDaoImpl">
+	<bean id="certificatoDao" class="com.alessandrodonato.elledia.dao.impl.CertificatoDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
+	<bean id="fornitoreDao" class="com.alessandrodonato.elledia.dao.impl.FornitoreDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+<!-- 
 
 	<bean id="CertificatoService" class="com.alessandrodonato.elledia.service.CertificatoServiceImpl">
 		<property name="certificatoDao" ref="certificatiDAO" />
 	</bean>
 	
-	<bean id="fornitoriDAO" class="com.alessandrodonato.elledia.dao.impl.FornitoreDaoImpl">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
 	
 	<bean id="fornitoriService" class="com.alessandrodonato.elledia.service.FornitoreServiceImpl">
 		<property name="fornitoreDao" ref="fornitoriDAO" />
 	</bean>
-	
+ -->	
 </beans>

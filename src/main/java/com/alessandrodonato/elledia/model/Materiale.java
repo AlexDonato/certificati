@@ -85,7 +85,7 @@ public class Materiale implements Serializable {
 	
 	@Override
 	public String toString () {
-		return "Maeriale [id = " + id + ", unita misura = " + unitaMisura + ", dimensione = " + dimensione + 
+		return "Materiale [id = " + id + ", unita misura = " + unitaMisura + ", dimensione = " + dimensione + 
 				", specifica materiale = " + specificaMateriale + "]";
 	}
 	

@@ -15,6 +15,7 @@
 	
 	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 	<annotation-driven />
+
 	<context:component-scan base-package="com.alessandrodonato.elledia.controller" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -27,6 +28,7 @@
 			</beans:value>
 		 </beans:property>
 	</beans:bean>
+	
 	<beans:bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<beans:property name="definitions">

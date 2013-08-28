@@ -2,36 +2,81 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
-<html lang="it">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-			<title>
-				<tiles:insertAttribute name="title" ignore="true" />
-			</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-			<link href="${pageContext.request.contextPath}/css/elledia-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-			<link href="${pageContext.request.contextPath}/css/elledia.css" rel="stylesheet">
-			
-			<meta charset="utf-8">
+		<title>
+			<tiles:insertAttribute name="title" ignore="true" />
+		</title>
 
-			<script src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
-			<script src="${pageContext.request.contextPath}/js/jquery-ui-1.10.3.custom.js"></script>
+		<!-- Bootstrap core CSS -->
+		<link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+		<link href="${pageContext.request.contextPath}/css/elledia.css" rel="stylesheet">
+
+		<script src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
+		
+		<!-- Form Validator http://jqueryvalidation.org-->
+		<script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+		<script src="${pageContext.request.contextPath}/js/additional-methods.js"></script>
+
+		<%-- <script src="${pageContext.request.contextPath}/js/vendor/jquery.ui.widget.js"></script> --%>
+		<script src="${pageContext.request.contextPath}/js/jquery.iframe-transport.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.fileupload.js"></script>
+		<script src="${pageContext.request.contextPath}/js/vendor/jquery.ui.widget.js"></script>
 
 
-<script>
-	$(function() {
-		$("#menu").menu();
-	});
-</script>
+		<!-- Form plugin -->
+		<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
 
-</head>
-<body>
-	<div id="wrap">
-		<div id="header"><tiles:insertAttribute name="header" /></div>
-		<div id="nav"><tiles:insertAttribute name="menu" /></div>
-		<div id="sidebar"></div>
-		<div id="main"><tiles:insertAttribute name="body" /></div>
-		<div id="footer"><tiles:insertAttribute name="footer" /></div>
-	</div>
-</body>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+	    <div class="navbar navbar-inverse navbar-fixed-top">
+	    	<tiles:insertAttribute name="menu" />
+	    </div>
+	
+	    <div class="container">
+	      <!-- Example row of columns -->
+	      <div class="row">
+	        <div class="col-lg-2">
+						Help tbd<!--  -->
+					</div>
+	        <div class="col-lg-8">
+						<tiles:insertAttribute name="body" />
+					</div>
+	      </div>
+	      
+	    </div> <!-- /container -->
+
+		</div>
+		
+		<div id="footer">
+      <div class="container">
+        <tiles:insertAttribute name="footer"/>
+      </div>
+    </div>
+    
+ 		<!-- Bootstrap core JavaScript
+		================================================== -->	
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+
+		<div id="mixpanel" style="visibility: hidden;"></div>
+		
+  </body>
 </html>
