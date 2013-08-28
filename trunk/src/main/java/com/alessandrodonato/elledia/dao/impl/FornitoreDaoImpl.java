@@ -11,10 +11,17 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.alessandrodonato.elledia.dao.FornitoreDao;
 import com.alessandrodonato.elledia.model.Fornitore;
@@ -24,6 +31,7 @@ import com.alessandrodonato.elledia.model.Fornitore;
  *
  * 18/feb/2013
  */
+
 public class FornitoreDaoImpl implements FornitoreDao {
 
 	private static final Logger log = Logger.getLogger(FornitoreDaoImpl.class);
@@ -48,19 +56,20 @@ public class FornitoreDaoImpl implements FornitoreDao {
 			return MSG_DUPLICATO;
 		}
 		
-		// TODO Auto-generated method stub
-		String query = "INSERT INTO fornitori (ragione_sociale, indirizzo, cap, citta, email, telefono, fax, piva ) " +
-				" VALUES (:ragione_sociale, :indirizzo, :cap, :citta, :email, :telefono, :fax, :piva)";
+		String query = "INSERT INTO fornitore (ragione_sociale, indirizzo, cap, citta, country, note, email, telefono, fax, piva ) " +
+				" VALUES (:ragione_sociale, :indirizzo, :cap, :citta, :country, :note, :email, :telefono, :fax, :piva)";
 		
 		Map namedParameters = new HashMap();
-		namedParameters.put("ragione_sociale", fornitore.getRagioneSociale());
-		namedParameters.put("indirizzo", fornitore.getIndirizzo());
+		namedParameters.put("ragione_sociale", StringUtils.upperCase(fornitore.getRagioneSociale()));
+		namedParameters.put("indirizzo", StringUtils.upperCase(fornitore.getIndirizzo()));
 		namedParameters.put("cap", fornitore.getCap());
-		namedParameters.put("citta", fornitore.getCitta());
+		namedParameters.put("citta", StringUtils.upperCase(fornitore.getCitta()));
+		namedParameters.put("country", StringUtils.upperCase(fornitore.getCountry()));
+		namedParameters.put("note", fornitore.getNote());
 		namedParameters.put("email", fornitore.getEmail());
 		namedParameters.put("telefono", fornitore.getTelefono());
 		namedParameters.put("fax", fornitore.getFax());
-		namedParameters.put("piva", fornitore.getPiva());
+		namedParameters.put("piva", StringUtils.upperCase(fornitore.getPiva()));
 		
 		int num = namedParameterJdbcTemplate.update(query, namedParameters);
 		
@@ -87,8 +96,18 @@ public class FornitoreDaoImpl implements FornitoreDao {
 
 	@Override
 	public Fornitore findFornitoreById(int id) {
-		log.debug("FAKE findFornitoreById [" + id + "]");
-		return null;
+		log.debug("named jdbc " + namedParameterJdbcTemplate);
+		log.debug("init findFornitoreById [" + id + "]");
+		
+		String query = "SELECT * FROM fornitore WHERE id = :id";
+		
+		SqlParameterSource namedParameters = new MapSqlParameterSource("id", Integer.toString(id));
+		
+		Fornitore fornitore = namedParameterJdbcTemplate.queryForObject(query, namedParameters, new FornitoreMapper());
+		
+		log.debug("end findFornitoreById [" + fornitore + "]");
+
+		return fornitore;
 	}
 
 	@Override
@@ -103,7 +122,7 @@ public class FornitoreDaoImpl implements FornitoreDao {
 		
 		log.debug("init findFornitoreByName [" + ragioneSociale + "]");
 		
-		String query = "SELECT * FROM fornitori WHERE LOWER(ragione_sociale) = LOWER(:ragione_sociale)";
+		String query = "SELECT * FROM fornitore WHERE LOWER(ragione_sociale) = LOWER(:ragione_sociale)";
 		
 		Map<String, String> namedParameters = new HashMap<String, String>();
 		namedParameters.put("ragione_sociale", ragioneSociale);		
@@ -137,9 +156,10 @@ public class FornitoreDaoImpl implements FornitoreDao {
 	@Override
 	public ArrayList<Fornitore> findFornitori (String nome) {
 		
+		log.debug("named jdbc " + namedParameterJdbcTemplate);
 		log.debug("init findFornitori [" + nome + "]");
 		
-		String query = "SELECT * FROM fornitori WHERE LOWER(ragione_sociale) like LOWER(:ragione_sociale) ORDER BY ragione_sociale";
+		String query = "SELECT * FROM fornitore WHERE LOWER(ragione_sociale) like LOWER(:ragione_sociale) ORDER BY ragione_sociale";
 		
 		Map<String, String> namedParameters = new HashMap<String, String>();
 		namedParameters.put("ragione_sociale", "%" + nome + "%");		
@@ -172,6 +192,27 @@ public class FornitoreDaoImpl implements FornitoreDao {
 		log.debug("end findFornitori [" + nome + "] trovati " + listaFornitori.size());
 		
 		return listaFornitori;
+	}
+	
+	private static final class FornitoreMapper implements RowMapper<Fornitore> {
+
+		@Override
+		public Fornitore mapRow(ResultSet rs, int index) throws SQLException {
+			
+			Fornitore fornitore = new Fornitore();
+			fornitore.setId(rs.getInt("ID"));
+			fornitore.setPiva(rs.getString("PIVA"));
+			fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
+			fornitore.setTelefono(rs.getString("TELEFONO"));
+			fornitore.setCitta(rs.getString("CITTA"));
+			fornitore.setCap(rs.getString("CAP"));
+			fornitore.setEmail(rs.getString("EMAIL"));
+			fornitore.setFax(rs.getString("FAX"));
+			fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
+			
+			return fornitore;
+		}
+		
 	}
 
 }
