@@ -4,6 +4,11 @@
 package com.alessandrodonato.elledia.service;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +28,7 @@ public class FornitoreServiceImpl implements FornitoreService {
 	
 	private final static Logger log = Logger.getLogger(FornitoreServiceImpl.class);
 
-	@Autowired
+	@Resource (name = "fornitoreDao")
 	FornitoreDao fornitoreDao;
 
 	public FornitoreDao getFornitoreDao() {
@@ -53,8 +58,7 @@ public class FornitoreServiceImpl implements FornitoreService {
 
 	@Override
 	public Fornitore findFornitoreById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return fornitoreDao.findFornitoreById(id);
 	}
 
 	@Override
@@ -68,5 +72,18 @@ public class FornitoreServiceImpl implements FornitoreService {
 		log.debug("Ricerca ...");
 		return fornitoreDao.findFornitori("");
 	}
+	
+	@Override
+	public SortedMap <String, String> findAllFornitoriCombo () {
+		log.debug("Ricerca per combo ...");
+		ArrayList<Fornitore> lista = fornitoreDao.findFornitori("");
+		SortedMap <String, String> comboValues = new TreeMap <String, String> ();
+		for (Fornitore fornitore : lista) {
+			comboValues.put(Integer.toString(fornitore.getId()), fornitore.getRagioneSociale());
+		}
+		log.debug("Combo fornitori -> " + comboValues.size() + " elementi.");
+		return comboValues;
+	}
+	
 
 }

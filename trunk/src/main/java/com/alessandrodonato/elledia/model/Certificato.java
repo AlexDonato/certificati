@@ -30,10 +30,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 */
 
 @Entity
-@Table	(name = "certificati", catalog = "elledia", 
+@Table	(name = "certificato", catalog = "elledia", 
 				uniqueConstraints = {
 						@UniqueConstraint(columnNames = "ID"),
-						@UniqueConstraint(columnNames = "NUMERO") })
+						@UniqueConstraint(columnNames = "CODICE") })
 public class Certificato implements Serializable {
 
 	/**
@@ -42,7 +42,7 @@ public class Certificato implements Serializable {
 	private static final long serialVersionUID = 6686006605735540543L;
 	
 	private int id;
-	private String numero;
+	private String codice;
 	private java.util.Date data;
 	private Fornitore fornitore;
 	private ArrayList<Materiale> materiali;
@@ -65,13 +65,13 @@ public class Certificato implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "NUMERO", unique = true, nullable = false, length = 10)
-	public String getNumero() {
-		return numero;
+	@Column(name = "CODICE", unique = true, nullable = false, length = 10)
+	public String getCodice() {
+		return codice;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setCodice(String codice) {
+		this.codice = codice;
 	}
 	
 	@Column(name = "DATA")
@@ -92,7 +92,7 @@ public class Certificato implements Serializable {
 	}
 	
 	public String toString () {
-		return "Certificato [id=" + id + ", numero=" + numero + "]";
+		return "Certificato [id=" + id + ", codice=" + codice + "]";
 	}
 
 	public ArrayList<Materiale> getMateriali() {

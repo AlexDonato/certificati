@@ -72,6 +72,6 @@ public class FornitoreController {
 	@RequestMapping(value = "/addFornitore", method = RequestMethod.GET)
 	public ModelAndView showFornitori() {
 
-		return new ModelAndView("addFornitore", "command", new Fornitore ());
+		return new ModelAndView("addFornitore", "fornitore", new Fornitore ());
 	}
 }

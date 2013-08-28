@@ -11,8 +11,10 @@ import com.alessandrodonato.elledia.model.Certificato;
  * 16/feb/2013
  */
 public interface CertificatoService {
-	void save (Certificato certificato);
-	void update (Certificato certificato);
-	void delete (Certificato certificato);
+	short save (Certificato certificato);
+	short update (Certificato certificato);
+	short delete (Certificato certificato);
+	String getNewCodice();
 	Certificato findById (int id);
+	Certificato findByCodice (String codice);
 }
