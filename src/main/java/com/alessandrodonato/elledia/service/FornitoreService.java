@@ -21,6 +21,5 @@ public interface FornitoreService {
 	public Fornitore findFornitoreById (int id);
 	public ArrayList <Fornitore> findFornitoriByName (String nome);
 	public ArrayList <Fornitore> findAllFornitori ();
-	public SortedMap <String, String> findAllFornitoriCombo ();
 
 }

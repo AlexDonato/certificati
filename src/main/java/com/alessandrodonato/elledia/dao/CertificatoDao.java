@@ -3,6 +3,9 @@
  */
 package com.alessandrodonato.elledia.dao;
 
+import java.util.Date;
+import java.util.ArrayList;
+
 import javax.sql.DataSource;
 
 import com.alessandrodonato.elledia.model.Certificato;
@@ -23,7 +26,10 @@ public interface CertificatoDao {
 	short save (Certificato certificato);
 	short update (Certificato certificato);
 	short delete (Certificato certificato);
+	
+	String getNewCodice ();
+
 	Certificato findById (int id);
 	Certificato findByCodice (String codice);
-	String getNewCodice ();
+	ArrayList <Certificato> findByParameters (String codice, Date dataFrom, Date dataTo, int idFornitore, String colata);
 }

@@ -73,17 +73,4 @@ public class FornitoreServiceImpl implements FornitoreService {
 		return fornitoreDao.findFornitori("");
 	}
 	
-	@Override
-	public SortedMap <String, String> findAllFornitoriCombo () {
-		log.debug("Ricerca per combo ...");
-		ArrayList<Fornitore> lista = fornitoreDao.findFornitori("");
-		SortedMap <String, String> comboValues = new TreeMap <String, String> ();
-		for (Fornitore fornitore : lista) {
-			comboValues.put(Integer.toString(fornitore.getId()), fornitore.getRagioneSociale());
-		}
-		log.debug("Combo fornitori -> " + comboValues.size() + " elementi.");
-		return comboValues;
-	}
-	
-
 }
