@@ -3,27 +3,21 @@
  */
 package com.alessandrodonato.elledia.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import com.alessandrodonato.elledia.dao.CertificatoDao;
 import com.alessandrodonato.elledia.helper.OperationMessageCodes;
+import com.alessandrodonato.elledia.mapper.CertificatoRowMapper;
 import com.alessandrodonato.elledia.model.Certificato;
-import com.alessandrodonato.elledia.model.Fornitore;
 import com.alessandrodonato.elledia.model.Materiale;
 
 /**
@@ -39,8 +33,9 @@ public class CertificatoDaoImpl implements CertificatoDao {
 	
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	private static final String INSERT_CERTIFICATO_QUERY = "INSERT INTO certificato (data_originale, codice, id_fornitore ) " +
-			" VALUES (:data_originale, :codice, :id_fornitore)";
+	private static final String INSERT_CERTIFICATO_QUERY = "INSERT INTO certificato (data_originale, codice, id_fornitore, " +
+			"filecontent, filename, filesize) " +
+			" VALUES (:data_originale, :codice, :id_fornitore, :filecontent, :filename, :filesize)";
 
 	private static final String INSERT_MATERIALE_QUERY = "INSERT INTO materiale (colata, dimensione, specifica, " + 
 			"tipo_materiale, id_tipo_dimensione, certificato_id) " +
@@ -62,6 +57,9 @@ public class CertificatoDaoImpl implements CertificatoDao {
 		pars.addValue ("data_originale", certificato.getData());
 		pars.addValue ("codice", certificato.getCodice());
 		pars.addValue ("id_fornitore", String.valueOf(certificato.getFornitore().getId()));
+		pars.addValue("filecontent", certificato.getFileContent());
+		pars.addValue("filename", certificato.getFileName());
+		pars.addValue("filesize", Long.valueOf(certificato.getFileLength()));
 		
 		int num = namedParameterJdbcTemplate.update(INSERT_CERTIFICATO_QUERY, pars);
 		
@@ -112,8 +110,16 @@ public class CertificatoDaoImpl implements CertificatoDao {
 	}
 
 	public Certificato findById(int id) {
-		log.info("ricerca per id " + id);
-		return null;
+		log.debug("ricerca certificato per id " + id);
+		
+		final String query = "select * from certificato where id = :id";
+				
+		Certificato certificato = namedParameterJdbcTemplate.queryForObject (
+				query, new MapSqlParameterSource("id", id), new CertificatoRowMapper());
+		
+		log.debug("certificato trovato = [" + certificato + "]");
+
+		return certificato;
 	}
 	
 	public Certificato findByCodice (String codice) {
@@ -121,18 +127,8 @@ public class CertificatoDaoImpl implements CertificatoDao {
 		
 		final String query = "select * from certificato where codice = :codice";
 				
-		Certificato certificato = namedParameterJdbcTemplate.queryForObject (query, new MapSqlParameterSource("codice", codice), new RowMapper<Certificato>() {
-
-			@Override
-			public Certificato mapRow(ResultSet rs, int id) throws SQLException {
-				Certificato certificato = new Certificato ();
-				certificato.setId(rs.getInt("id"));
-				certificato.setCodice(rs.getString("codice"));
-				certificato.setData(rs.getDate("data_originale"));
-				log.warn("manca il set delle join con materiali e fornitore!!!");
-				return certificato;
-			}
-		});
+		Certificato certificato = namedParameterJdbcTemplate.queryForObject (query, 
+					new MapSqlParameterSource("codice", codice), new CertificatoRowMapper());
 		
 		log.debug("certificato trovato = [" + certificato + "]");
 
@@ -153,6 +149,54 @@ public class CertificatoDaoImpl implements CertificatoDao {
 
 		return codice;
 		
+	}
+	
+	@Override
+	public ArrayList <Certificato> findByParameters (String codice, Date dataFrom, Date dataTo, int idFornitore, String idColata) {
+		log.debug("ricerca certificato per parametri ... codice[" + codice + "] - dataFrom [" + dataFrom 
+								+ "] - dataTo[" + dataTo + "] - fornitore[" + idFornitore + "] - colata [" + idColata + "]");
+		
+		List <Certificato> lista = new ArrayList<Certificato> ();
+		
+		String query = "SELECT distinct certificato.*, fornitore.ragione_sociale FROM certificato, materiale, fornitore " +
+			"where materiale.certificato_id = certificato.id and fornitore.id = certificato.id_fornitore ";
+		String and = "";
+		
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		
+		if (codice != null && !"".equals(codice)) {
+			and = " and ";
+			query += and + "codice = :codice";
+			paramSource.addValue("codice", codice);
+		}
+		if (dataFrom != null) {
+			and = " and ";
+			query += and + "data_originale >= :dataFrom";
+			paramSource.addValue("dataFrom", dataFrom);
+		}
+		if (dataTo != null) {
+			and = " and ";
+			query += and + "data_originale <= :dataTo";
+			paramSource.addValue("dataTo", dataTo);
+		}
+		if (idFornitore != -1) {
+			and = " and ";
+			query += and + "id_fornitore = :idFornitore";
+			paramSource.addValue("idFornitore", new Integer(idFornitore));
+		}
+		if (idColata != null && !"".equals(idColata)) {
+			and = " and ";
+			query += and + " materiale.colata = :idColata";
+			paramSource.addValue("idColata", idColata);
+		}
+		
+		query += " order by certificato.id asc";
+		
+		log.debug("query = " + query);
+
+		lista = namedParameterJdbcTemplate.query(query, paramSource, new CertificatoRowMapper());
+		
+		return new ArrayList<Certificato>(lista);
 	}
 	
 }
