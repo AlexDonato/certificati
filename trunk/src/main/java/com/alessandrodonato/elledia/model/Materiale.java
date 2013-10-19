@@ -5,7 +5,12 @@ package com.alessandrodonato.elledia.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -27,7 +32,6 @@ import javax.persistence.UniqueConstraint;
 @Table	(name = "materiali", catalog = "elledia", 
 			uniqueConstraints = {
 					@UniqueConstraint(columnNames = "ID")})
-
 public class Materiale implements Serializable {
 	
 	/**
@@ -39,8 +43,12 @@ public class Materiale implements Serializable {
 	private String dimensione;
 	private String unitaMisura;
 	private String specificaMateriale;
+	private String tipoMateriale;
 	private Certificato certificato;
 	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "id", nullable=false, unique=true)
 	public int getId() {
 		return id;
 	}
@@ -48,6 +56,7 @@ public class Materiale implements Serializable {
 		this.id = id;
 	}
 	
+	@Column (name="colata")
 	public String getColata() {
 		return colata;
 	}
@@ -55,6 +64,7 @@ public class Materiale implements Serializable {
 		this.colata = colata;
 	}
 	
+	@Column (name = "dimensione")
 	public String getDimensione() {
 		return dimensione;
 	}
@@ -62,6 +72,7 @@ public class Materiale implements Serializable {
 		this.dimensione = dimensione;
 	}
 	
+	@Column (name ="unita_misura")
 	public String getUnitaMisura() {
 		return unitaMisura;
 	}
@@ -69,13 +80,23 @@ public class Materiale implements Serializable {
 		this.unitaMisura = unitaMisura;
 	}
 	
+	@Column (name = "specifica")
 	public String getSpecificaMateriale() {
 		return specificaMateriale;
 	}
 	public void setSpecificaMateriale(String specificaMateriale) {
 		this.specificaMateriale = specificaMateriale;
 	}
+
+	public String getTipoMateriale() {
+		return tipoMateriale;
+	}
+	public void setTipoMateriale(String tipoMateriale) {
+		this.tipoMateriale = tipoMateriale;
+	}
 	
+	@ManyToOne
+	@Column (name = "certificato_id")
 	public Certificato getCertificato() {
 		return certificato;
 	}

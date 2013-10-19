@@ -38,7 +38,7 @@ public class FornitoreController {
 	/**
 	 * Handles request for adding new supplier
 	 */
-	@RequestMapping(value = "/addFornitore", method = RequestMethod.POST)
+	@RequestMapping(value = "/new-supplier", method = RequestMethod.POST)
 	public @ResponseBody int addFornitore (HttpServletRequest request, HttpServletResponse response) {
 		
 		Fornitore fornitore = new Fornitore ();
@@ -69,9 +69,9 @@ public class FornitoreController {
 		
 	}
 
-	@RequestMapping(value = "/addFornitore", method = RequestMethod.GET)
+	@RequestMapping(value = "/new-supplier", method = RequestMethod.GET)
 	public ModelAndView showFornitori() {
 
-		return new ModelAndView("addFornitore", "fornitore", new Fornitore ());
+		return new ModelAndView("new-supplier", "fornitore", new Fornitore ());
 	}
 }

@@ -10,8 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -43,8 +47,16 @@ public class Certificato implements Serializable {
 	
 	private int id;
 	private String codice;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private java.util.Date data;
+	private int idFornitore;
 	private Fornitore fornitore;
+	
+	private byte [] fileContent;
+	private String filenName;
+	private long fileLength;
+	
 	private ArrayList<Materiale> materiali;
 
 	public static long getSerialversionuid() {
@@ -83,6 +95,7 @@ public class Certificato implements Serializable {
 		this.data = data;
 	}
 	
+	@ManyToOne
 	public Fornitore getFornitore() {
 		return fornitore;
 	}
@@ -91,16 +104,49 @@ public class Certificato implements Serializable {
 		this.fornitore = fornitore;
 	}
 	
+	public byte[] getFileContent() {
+		return fileContent;
+	}
+
+	public void setFileContent(byte[] fileContent) {
+		this.fileContent = fileContent;
+	}
+
+	public String getFileName() {
+		return filenName;
+	}
+
+	public void setFileName(String filenName) {
+		this.filenName = filenName;
+	}
+
+	public long getFileLength() {
+		return fileLength;
+	}
+
+	public void setFileLength(long fileLength) {
+		this.fileLength = fileLength;
+	}
+
 	public String toString () {
 		return "Certificato [id=" + id + ", codice=" + codice + "]";
 	}
 
+	@OneToMany(mappedBy = "certificato")
 	public ArrayList<Materiale> getMateriali() {
 		return materiali;
 	}
 
 	public void setMateriali(ArrayList<Materiale> materiali) {
 		this.materiali = materiali;
+	}
+
+	public int getIdFornitore() {
+		return idFornitore;
+	}
+
+	public void setIdFornitore(int idFornitore) {
+		this.idFornitore = idFornitore;
 	}
 
 	

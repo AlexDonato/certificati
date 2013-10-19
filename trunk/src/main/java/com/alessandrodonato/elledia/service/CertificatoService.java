@@ -3,6 +3,9 @@
  */
 package com.alessandrodonato.elledia.service;
 
+import java.util.Date;
+import java.util.ArrayList;
+
 import com.alessandrodonato.elledia.model.Certificato;
 
 /**
@@ -17,4 +20,5 @@ public interface CertificatoService {
 	String getNewCodice();
 	Certificato findById (int id);
 	Certificato findByCodice (String codice);
+	ArrayList <Certificato> findByParameters (String codice, Date dataFrom, Date dataTo, int idFornitore, String colata);
 }

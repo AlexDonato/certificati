@@ -41,6 +41,12 @@ body {
   padding-right: 15px;
 }
 
+.panel-heading {
+padding: 5px 5px;
+border-bottom: 1px solid transparent;
+border-top-right-radius: 3px;
+border-top-left-radius: 3px;
+
 code {
   font-size: 80%;
 }

@@ -13,18 +13,27 @@
 
     <definition name="home" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/jsp/home.jsp" />
-    </definition> 
-
-    <definition name="addFornitore" extends="base.definition">
+    </definition>
+    
+    <definition name="new-supplier" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/jsp/fornitori.jsp" />
     </definition>
 
-    <definition name="newCertificato" extends="base.definition">
+    <definition name="new-certificate" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/jsp/certificato.jsp" />
     </definition>
     
-    <definition name="addMateriale" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/jsp/certificato.jsp" />
+    <definition name="new-document" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/new-document.jsp" />
     </definition>    
+    
+    <definition name="list-certificates" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/lista_certificati.jsp" />
+    </definition>
+    
+		<!-- pagine di errore -->
+    <definition name="404" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/404.jsp" />
+    </definition> 
   
 </tiles-definitions>
