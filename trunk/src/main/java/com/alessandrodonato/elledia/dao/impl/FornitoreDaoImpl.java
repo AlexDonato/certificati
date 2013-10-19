@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.alessandrodonato.elledia.dao.FornitoreDao;
+import com.alessandrodonato.elledia.mapper.FornitoreRowMapper;
 import com.alessandrodonato.elledia.model.Fornitore;
 
 /**
@@ -103,7 +104,7 @@ public class FornitoreDaoImpl implements FornitoreDao {
 		
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id", Integer.toString(id));
 		
-		Fornitore fornitore = namedParameterJdbcTemplate.queryForObject(query, namedParameters, new FornitoreMapper());
+		Fornitore fornitore = namedParameterJdbcTemplate.queryForObject(query, namedParameters, new FornitoreRowMapper());
 		
 		log.debug("end findFornitoreById [" + fornitore + "]");
 
@@ -126,27 +127,7 @@ public class FornitoreDaoImpl implements FornitoreDao {
 		
 		Map<String, String> namedParameters = new HashMap<String, String>();
 		namedParameters.put("ragione_sociale", ragioneSociale);		
-		Fornitore fornitore = (Fornitore) namedParameterJdbcTemplate.query (query, namedParameters, new ResultSetExtractor<Fornitore>() {
-
-			@Override
-			public Fornitore extractData(ResultSet rs) throws SQLException,	DataAccessException {
-				if (rs.next()) {
-					Fornitore fornitore = new Fornitore();
-					fornitore.setId(rs.getInt("ID"));
-					fornitore.setPiva(rs.getString("PIVA"));
-					fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
-					fornitore.setTelefono(rs.getString("TELEFONO"));
-					fornitore.setCitta(rs.getString("CITTA"));
-					fornitore.setCap(rs.getString("CAP"));
-					fornitore.setEmail(rs.getString("EMAIL"));
-					fornitore.setFax(rs.getString("FAX"));
-					fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
-					return fornitore;
-				} else {
-					return null;
-				}
-			}
-		});
+		Fornitore fornitore = (Fornitore) namedParameterJdbcTemplate.query (query, namedParameters, new FornitoreRowMapper());
 		
 		log.debug("end findFornitoreByName [" + fornitore + "] trovato.");
 		
@@ -164,55 +145,11 @@ public class FornitoreDaoImpl implements FornitoreDao {
 		Map<String, String> namedParameters = new HashMap<String, String>();
 		namedParameters.put("ragione_sociale", "%" + nome + "%");		
 		ArrayList<Fornitore> listaFornitori = 
-				(ArrayList<Fornitore>) namedParameterJdbcTemplate.query (query, namedParameters, new ResultSetExtractor<ArrayList<Fornitore>>() {
-
-					@Override
-					public ArrayList<Fornitore> extractData(ResultSet rs)
-							throws SQLException, DataAccessException {
-						
-						ArrayList<Fornitore> listaFornitori = new ArrayList<Fornitore>();
-						while (rs.next()) {
-							Fornitore fornitore = new Fornitore();
-							fornitore.setId(rs.getInt("ID"));
-							fornitore.setPiva(rs.getString("PIVA"));
-							fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
-							fornitore.setTelefono(rs.getString("TELEFONO"));
-							fornitore.setCitta(rs.getString("CITTA"));
-							fornitore.setCap(rs.getString("CAP"));
-							fornitore.setEmail(rs.getString("EMAIL"));
-							fornitore.setFax(rs.getString("FAX"));
-							fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
-							listaFornitori.add (fornitore);
-						}
-
-						return listaFornitori;
-					}
-				});
+				(ArrayList<Fornitore>) namedParameterJdbcTemplate.query (query, namedParameters, new FornitoreRowMapper());
 		
 		log.debug("end findFornitori [" + nome + "] trovati " + listaFornitori.size());
 		
 		return listaFornitori;
 	}
 	
-	private static final class FornitoreMapper implements RowMapper<Fornitore> {
-
-		@Override
-		public Fornitore mapRow(ResultSet rs, int index) throws SQLException {
-			
-			Fornitore fornitore = new Fornitore();
-			fornitore.setId(rs.getInt("ID"));
-			fornitore.setPiva(rs.getString("PIVA"));
-			fornitore.setRagioneSociale(rs.getString("RAGIONE_SOCIALE"));
-			fornitore.setTelefono(rs.getString("TELEFONO"));
-			fornitore.setCitta(rs.getString("CITTA"));
-			fornitore.setCap(rs.getString("CAP"));
-			fornitore.setEmail(rs.getString("EMAIL"));
-			fornitore.setFax(rs.getString("FAX"));
-			fornitore.setIndirizzo(rs.getString("INDIRIZZO"));
-			
-			return fornitore;
-		}
-		
-	}
-
 }

@@ -16,21 +16,23 @@
 
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet">
+		<!-- Datepicker for Bootstrap - from http://www.eyecon.ro/bootstrap-datepicker/ -->
+		<link href="${pageContext.request.contextPath}/css/datepicker.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/css/elledia.css" rel="stylesheet">
 
 		<script src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
+		<script src="${pageContext.request.contextPath}/js/json2.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery-ui-1.10.3.js"></script>
 		
-		<!-- Form Validator http://jqueryvalidation.org-->
+		
+		<!-- Form Validator http://jqueryvalidation.org
 		<script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
 		<script src="${pageContext.request.contextPath}/js/additional-methods.js"></script>
-
-		<%-- <script src="${pageContext.request.contextPath}/js/vendor/jquery.ui.widget.js"></script> --%>
-		<script src="${pageContext.request.contextPath}/js/jquery.iframe-transport.js"></script>
-		<script src="${pageContext.request.contextPath}/js/jquery.fileupload.js"></script>
-		<script src="${pageContext.request.contextPath}/js/vendor/jquery.ui.widget.js"></script>
-
+		-->
+		
+		<script src="${pageContext.request.contextPath}/js/elledia.js"></script>
 
 		<!-- Form plugin -->
 		<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
@@ -54,9 +56,10 @@
 	      <!-- Example row of columns -->
 	      <div class="row">
 	        <div class="col-lg-2">
-						Help tbd<!--  -->
+	        	Gestione menù 
+						<div class="well">TBD</div>
 					</div>
-	        <div class="col-lg-8">
+	        <div class="col-lg-10">
 						<tiles:insertAttribute name="body" />
 					</div>
 	      </div>
@@ -75,8 +78,9 @@
 		================================================== -->	
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-
-		<div id="mixpanel" style="visibility: hidden;"></div>
+		<script src="${pageContext.request.contextPath}/js/bootstrap-datepicker.js"></script>
 		
+		<div id="mixpanel" style="visibility: hidden;"></div>
+				
   </body>
 </html>

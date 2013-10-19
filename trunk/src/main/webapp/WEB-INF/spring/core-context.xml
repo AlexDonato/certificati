@@ -14,6 +14,8 @@
 
 	<context:component-scan base-package="com.alessandrodonato.elledia, org.hibernate.SessionFactory" />
 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>	
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${database.driverClassName}" />
@@ -50,15 +52,8 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-<!-- 
+	<bean id="materialeDao" class="com.alessandrodonato.elledia.dao.impl.MaterialeDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
-	<bean id="CertificatoService" class="com.alessandrodonato.elledia.service.CertificatoServiceImpl">
-		<property name="certificatoDao" ref="certificatiDAO" />
-	</bean>
-	
-	
-	<bean id="fornitoriService" class="com.alessandrodonato.elledia.service.FornitoreServiceImpl">
-		<property name="fornitoreDao" ref="fornitoriDAO" />
-	</bean>
- -->	
 </beans>

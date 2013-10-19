@@ -1,10 +1,22 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div id="dialog-form" title="Inserimento nuovo certificato">
 
-	<form:form id="certificatoForm" method="post" enctype="multipart/form-data" class="form-horizontal" action="salvaCertificato.html" role="form" commandName="certificato">
+	<form:form id="formCertificato" method="post" enctype="multipart/form-data" class="form-horizontal" 
+						action="new-certificate.html" role="form" commandName="certificato">
 
-		<h5>Compilare i dati relativi al certificato da registrare</h5>
+		<h5>
+		<c:choose>
+			<c:when test="${not empty certificato}">
+				Dati del certificato
+			</c:when>
+			<c:otherwise>
+				Compilare i dati relativi al certificato da registrare
+			</c:otherwise>
+		</c:choose>
+		
+		</h5>
 	
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -20,17 +32,17 @@
 						<form:input path="codice" id="formCertificato-codice" class="form-control input-sm"	placeholder="Codice" disabled="true"/>
 						<form:hidden path="codice" id="formCertificato-codice" class="form-control input-sm"	placeholder="Codice"/>
 					</div>
-									
+
 					<div class="col-lg-3">
 						<label class="control-label">Data</label>
-						<form:input path="data" id="formCertificato-data" class="form-control input-sm"	placeholder=""/>
+						<form:input path="data" id="formCertificato-data" class="form-control input-sm"	placeholder="" readonly="true"/>				
 					</div>
 	
 					<div class="col-lg-6">
 						<label class="control-label">Fornitore</label>
 						<form:select path="fornitore" id="formCertificato-fornitore" class="form-control input-sm"	placeholder="Fornitore">
 								<form:option value="NONE" label="--- Seleziona ---"/>
-								<form:options items="${fornitoreCombo}"  />				    			
+								<form:options items="${fornitoreCombo}" itemValue="id" itemLabel="ragioneSociale" />				    			
 						</form:select>
 					</div>
 					
@@ -42,7 +54,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-						Elenco materiali
+						Elenco materiali ${certificato.materiali}
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -60,21 +72,21 @@
 						<td>
 							<select id="formCertificato-rowMateriale1-tipoMateriale" name="formCertificato-rowMateriale1-tipoMateriale" class="form-control input-sm">
 								<option value="NONE" label="Seleziona ---"/>
-								<option value="1" label="Curva">
-								<option value="2" label="Flangia">
-								<option value="3" label="Fondelli">
-								<option value="4" label="Mezzi manicotti">
-								<option value="5" label="Riduzione">
-								<option value="6" label="Tubo">
+								<option value="Curva" label="Curva">
+								<option value="Flangia" label="Flangia">
+								<option value="Fondello" label="Fondello">
+								<option value="Mezzo manicotto" label="Mezzo manicotto">
+								<option value="Riduzione" label="Riduzione">
+								<option value="Tubo" label="Tubo">
 							</select>
 						</td>
 						<td>
 							<select id="formCertificato-rowMateriale1-unitaMisura" name="formCertificato-rowMateriale1-unitaMisura" class="form-control input-sm">
 								<option value="NONE" label="Seleziona ---"/>
-								<option value="1" label="Numero">
-								<option value="2" label="Metri">
-								<option value="3" label="Kilogrammi">
-								<option value="4" label="Diametro">				    			
+								<option value="Numero" label="Numero">
+								<option value="Mt" label="Metri">
+								<option value="Kg" label="Kilogrammi">
+								<option value="Diam." label="Diametro">				    			
 							</select>
 						</td>
 						<td>
@@ -88,6 +100,9 @@
 						</td>
 						
 					</tr>
+					<c:forEach items="${certificato.materiali}" var="materiale">
+						<c:out value="${materiale.id}"></c:out>
+					</c:forEach>
 				</table>
 				<div class="row">				
 					<div class="col-lg-9"></div>
@@ -98,10 +113,6 @@
 			</div>
 		</div>
 		<!-- fine panel materiali -->
-
-	</form:form>
-
-	<form id="fileCertificatoForm" method="post" enctype="multipart/form-data" class="form-horizontal" action="salvaFileCertificato.html" role="form">
 		
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -114,8 +125,9 @@
 	
 				<div class="form-group">
 					<div class="col-lg-4">
-						<label for="certificatoInputFile">File certificato</label>
-						<input id="fileupload" type="file" name="files[]" data-url="salvaFileCertificato.html" multiple >
+						<label for="formCertificato-fileCertificato">File certificato</label>
+						<input id="formCertificato-fileCertificato" type="file" name="formCertificato-fileCertificato">
+						<a href="${pageContext.request.contextPath}/download/${certificato.fileName}?id=${certificato.id}" target="_new">SCARICA</a>
 					</div>
 				</div>
 					
@@ -146,7 +158,7 @@
 			</div>
 		</div>
 		
-	</form>
+	</form:form>
 		
 </div> <!-- div principale -->
 
@@ -154,26 +166,28 @@
 <script type="text/javascript">
 <!--
 
-	var formOkToBePosted = 1;
-	var formSaved = 0;
+	var formSaved = "1";
 
-	$(window).bind('beforeunload', function(){
-		  return 'I dati non sono ancora stati salvati.';
-	});
-	
 	$(document).ready (function() {
-/* 		// Preparazione della form per upload del file
-		var options = {
-				beforeSend: function () {alert ("Sta per partire l'upload");},
-				uploadProgress: function () {},
-				success: function () {alert ("Tutto ok!");},
-				error: function () {alert ("Si è verificato un errore"); },
-				complete: function (response) {alert ("response: " + response);}
-		};
 
-		$("#fileCertificatoForm").ajaxForm(options);
- */
- 		
+		$("#formCertificato-data").datepicker({ dateFormat: "dd/mm/yyyy" });
+		
+		<c:set var="isFormSaved" value="${result}" />
+		<c:choose>
+			<c:when test="${isFormSaved == 0}">
+				// se il result è 0, allora ha salvato con successo, quindi disabilito il bottone di save
+				$("#salva").attr ("disabled", "disabled");
+				$("#statusMessage").removeClass("label-danger");
+				$("#statusMessage").html ("Il certificato è stato salvato.");
+			</c:when>
+			<c:when test="${isFormSaved == 0}">
+				// se il result è -1, allora il certificato non è stato salvato !!!
+				$("#salva").attr ("disabled", "disabled");
+				$("#statusMessage").addClass("label-danger");
+				$("#statusMessage").html ("Si è verificato un errorre: il certificato NON è stato salvato.");
+			</c:when>
+		</c:choose>
+					
 		$("#aggiungi_materiale").click (
 				function () {
 					var matchPattern = "#elencoMaterialiTable *[id^='tableRowMateriale']";
@@ -222,60 +236,62 @@
 		$("#salva").click (
 			function () {
 
-				if (formOkToBePosted == 0) {
-					alert ('ciccia');
-					return;
-				}				
+				// Per log				
 				var formInputs = $("*[id^='formCertificato-']");
 				var inputArray = $.makeArray(formInputs);
-				var lista = "";
-
-				inputArray.forEach (stampaLista);		
-				//alert ("salva " + inputArray);
+				inputArray.forEach (stampaLista);
+				// Fine per log
 				
-				var posting = $.post ("${pageContext.request.contextPath}/salvaCertificato.html", $("#certificatoForm").serialize() );
-				
-				posting.done (function(msg) {
-					var messaggio; 
-					if (msg == 0) {
+				var formOkToBePosted = 1;
 
-						alert ('dati base salvati');
-						messaggio = "Dati salvati correttamente";
+				//TODO: verifica dei campi obbligatori
+				if ($("#formCertificato-data").val() == "") {
+					setFieldAsInvalid ("formCertificato-data","statusMessage");
+					formOkToBePosted = 0;
+				}
+				if ($("#formCertificato-fornitore").val() == "NONE") {
+					setFieldAsInvalid ("formCertificato-fornitore","statusMessage");
+					formOkToBePosted = 0;
+				}
 
-						// upload del file
-						$("#fileupload").fileupload ({
-									dataType: 'json',
-									done: function (e, data) {
-										alert ('finito upload');
-									}
-						});
+				// Almeno un materiale ...
+				if ($("#formCertificato-rowMateriale1-colata").val() == "") {
+					setFieldAsInvalid ("formCertificato-rowMateriale1-colata","statusMessage");
+					formOkToBePosted = 0;
+				}
+				if ($("#formCertificato-rowMateriale1-tipoMateriale").val() == "NONE") {
+					setFieldAsInvalid ("formCertificato-rowMateriale1-tipoMateriale","statusMessage");
+					formOkToBePosted = 0;
+				}
+				if ($("#formCertificato-rowMateriale1-unitaMisura").val() == "") {
+					setFieldAsInvalid ("formCertificato-rowMateriale1-unitaMisura","statusMessage");
+					formOkToBePosted = 0;
+				}
+				if ($("#formCertificato-rowMateriale1-dimensione").val() == "") {
+					setFieldAsInvalid ("formCertificato-rowMateriale1-dimensione","statusMessage");
+					formOkToBePosted = 0;
+				}
+				if ($("#formCertificato-rowMateriale1-specifica").val() == "") {
+					setFieldAsInvalid ("formCertificato-rowMateriale1-specifica","statusMessage");
+					formOkToBePosted = 0;
+				}
 
-						$("#salva").attr ("disabled", "disabled");
+				// Il file ..
+				if ($("#formCertificato-fileCertificato").val() == "") {
+					setFieldAsInvalid ("formCertificato-fileCertificato","statusMessage");
+					formOkToBePosted = 0;
+				}
+
+				// Se non è tutto ok ...
+				if (formOkToBePosted == 0) {	
+					$("#statusMessage").removeClass("label-success");
+					$("#statusMessage").addClass("label-danger");
+					$("#statusMessage").html ("Compilare i campi obbligatori");
+				}	else {
+					// Tutto ok ... salviamo
+					$("#formCertificato").submit();
+				}
 						
-						$("#statusMessage").removeClass("label-danger");
-						$("#statusMessage").addClass("label-success");
-						formSaved = 1;
-						
-					} else if (msg == 1) {
-						messaggio = "Certificato gia' presente (cod.err. 0x01)";
-						$("#statusMessage").removeClass("label-success");
-						$("#statusMessage").addClass("label-danger");
-						
-					} else if (msg == 2) {
-						messaggio = "Si e' verificato un errore (cod.err. 0x02)";
-						$("#statusMessage").removeClass("label-success");
-						$("#statusMessage").addClass("label-danger");
-						
-					} else {
-						messaggio = "Si e' verificato un errore (cod.err. 0x03)";
-						$("#statusMessage").removeClass("label-success");
-						$("#statusMessage").addClass("label-danger");
-						
-					}
-					$("#statusMessage").html(messaggio);
-					 
-				});
-				
 		});
 		function stampaLista (elem, index) {
 			console.log( "Index " + index + ": " + elem.id + ": " + elem.value);
