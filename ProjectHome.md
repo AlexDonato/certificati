@@ -1,0 +1,1 @@
+a test with spring and hibernate
